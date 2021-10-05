@@ -1,1 +1,7 @@
 fastapi
+pydantic
+uvicorn
+motor.motor_asyncio
+fastapi_mqtt
+uuid4 
+typing
