@@ -74,7 +74,7 @@ class RackAutomationTimer (BaseModel):
 
             "electrovalvule1": 8,
             "electrovalvule2": 9,
-            "electrovalvule3": 10
+            "electrovalvule3": 10,
             "electrovalvule4": 11
 
       },
@@ -83,7 +83,7 @@ class RackAutomationTimer (BaseModel):
 
             "electrovalvule1": 9,
             "electrovalvule2": 10,
-            "electrovalvule3": 11
+            "electrovalvule3": 11,
             "electrovalvule4": 12
 
       },
@@ -133,7 +133,7 @@ class RackAutomationSwicht (BaseModel):
 
             "electrovalvule1": False,
             "electrovalvule2": False,
-            "electrovalvule3": False
+            "electrovalvule3": False,
             "electrovalvule4": False
 
       },

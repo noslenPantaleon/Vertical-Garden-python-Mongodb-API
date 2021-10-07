@@ -23,8 +23,7 @@ async def get_all_racks_id():
     return racks_id
 
 
-# save new rack in database                                          
-    racks_id = []          
+# save new rack in database                                                   
 async def add_new_rack(data_rack):
     document = data_rack
     result = await collection.insert_one(document)
@@ -46,12 +45,10 @@ async def delete_rack(rack_id):
 
 
 # save sensor data by rackid in database                                
-async def save_sensor_data(rack_id, data, schedule):
-    timenow = datetime.now()
-    if timenow == schedule:
-        document = dict(data)
-        result = await collection.insert_one({"rack_id": (rack_id)}, document)
-        
+async def save_sensor_data(data):
+    document = dict(data)
+    result = await collection.insert_one(document)
+
 
 # add automations by rackid
 async def save_automation(rack_id, model):
@@ -59,3 +56,6 @@ async def save_automation(rack_id, model):
     await collection.update_one({"_id": ObjectId(rack_id)}, {"$set": model})
     document = await collection.find_one({"_id": ObjectId(rack_id)})
     return document
+
+
+

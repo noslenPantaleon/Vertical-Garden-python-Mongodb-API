@@ -46,7 +46,7 @@ class Rack (BaseModel):
 
             "electrovalvule1": False,
             "electrovalvule2": False,
-            "electrovalvule3": False
+            "electrovalvule3": False,
             "electrovalvule4": False
 
       },

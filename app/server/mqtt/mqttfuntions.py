@@ -1,4 +1,6 @@
 from server.mqtt.mqttconfig import mqtt
+from datetime import datetime
+
 import json
 
 
@@ -69,7 +71,14 @@ async def mqtt_message(client, topic, payload, qos, properties):
         rack_data["water_level_tray_2"] = water_level_tray_2_recieve
 
         print("Received message: ", topic, payload.decode(), qos, properties)
+
         return rack_data
+        schedule= [8,13,17,20,1,4]
+        for hours in schedule:
+            timenow = datetime.now()
+            if timenow == hours:
+                save_sensor_data (rack_data)
+      
         # json_data = json.dumps (mqtt_decode)
 
 
@@ -84,8 +93,5 @@ def subscribe(client, mid, qos, properties):
     print("subscribed", client, mid, qos, properties)
 
 
-def rackdata ():
-    data= rack_data
-    return data
 
 
