@@ -14,3 +14,5 @@ app = FastAPI()                                   # fast api app
 mqtt.init_app(app)                                # init mqtt service in fastapi
 app.include_router(RackRouter)
 
+
+

@@ -1,11 +1,15 @@
 from server.mqtt.mqttconfig import mqtt
 from datetime import datetime
-
+from server.database import save_sensor_data
+import time
 import json
 
+datetime_now = datetime.now()
+hour= (datetime_now.strftime ('%H'))
+minutes= (datetime_now.strftime ('%M'))
+seconds= (datetime_now.strftime ('%S')) 
 
 rack_data = {}
-
 
 # susbcribe to the topic on conecct to the mqtt broker
 @mqtt.on_connect()
@@ -70,14 +74,15 @@ async def mqtt_message(client, topic, payload, qos, properties):
         water_level_tray_2_recieve = val.get('WLT2')
         rack_data["water_level_tray_2"] = water_level_tray_2_recieve
 
-        print("Received message: ", topic, payload.decode(), qos, properties)
+        rack_data["time"] = datetime_now
 
-        return rack_data
-        schedule= [8,13,17,20,1,4]
-        for hours in schedule:
-            timenow = datetime.now()
-            if timenow == hours:
-                save_sensor_data (rack_data)
+        print("Received message: ", topic, payload.decode(), qos, properties)
+        save_Data = await save_sensor_data (rack_data)      
+        return rack_data 
+     
+       
+
+
       
         # json_data = json.dumps (mqtt_decode)
 
@@ -91,6 +96,8 @@ def disconnect(client, packet, exc=None):
 @mqtt.on_subscribe()
 def subscribe(client, mid, qos, properties):
     print("subscribed", client, mid, qos, properties)
+
+
 
 
 

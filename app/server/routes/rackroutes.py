@@ -24,11 +24,14 @@ from server.database import (
     update_rack_items,
     delete_rack,
     save_automation,
-    save_sensor_data,)
+    save_sensor_data,
+    delete_sensor_data,
+    )
 
 router = APIRouter()
 rack_list = []
 growlist = []
+
 
 # imput rack id as a parameter and get data rack created by id
 @router.get('/rack/{rack}', response_model=Rack)
@@ -108,6 +111,14 @@ async def update_rack(rack_id: str,  model: RackUpdate):
 @router.delete('/deleterack/{rack_id}')
 async def remove_rack(rack_id: str):
     response = await delete_rack(rack_id)
+    if response:
+        return {"message": "Post has been deleted succesfully"}
+    raise HTTPException(status_code=404, detail="Item not found")
+
+# delete sensordata by id
+@router.delete('/deletesensordata/{object_id}')
+async def delete_sensors_data(object_id: str):
+    response = await delete_sensor_data(object_id)
     if response:
         return {"message": "Post has been deleted succesfully"}
     raise HTTPException(status_code=404, detail="Item not found")
