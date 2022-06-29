@@ -2,7 +2,7 @@ from pydantic import BaseModel, ValidationError, conint
 from typing import Optional, Text, List, Dict 
 from datetime import datetime
 from time import time
-import uvicorn
+
 
 
 
@@ -11,25 +11,28 @@ class MqttMessage (BaseModel):
     mqtt_message: str
     mqtt_subtopic: str
 
+class datetimeConfig(BaseModel):
+    on_hour: Dict[str, int]
+    off_hour: Dict[str, int]
+
 
 # model to create rack automation
-class RackAutomationTimer (BaseModel):
-    rack_name: str
+class AutomationTimer (BaseModel):
+ 
     lights_on: Dict[str,  int]
     lights_off: Dict[str, int]
     coolers_on:  Dict[str, int]
     coolers_off:  Dict[str, int]
     waterpumps_on: Dict[str, int]
     waterpumps_off: Dict[str, int]
-    electrovalvules_on: Dict[str, bool]
-    electrovalvules_off: Dict[str, bool]
+    electrovalvules_on: Dict[str, int]
+    electrovalvules_off: Dict[str, int]
     created_at: datetime = datetime.now()
 
 
     class Config:
         schema_extra = {
         "example":{
-        "rack_name": "comunication",
 
         "lights_on": {
             "light1": 8,
@@ -93,25 +96,20 @@ class RackAutomationTimer (BaseModel):
 
 
 # model to create rack automation
-class RackAutomationSwicht (BaseModel):
-
-    rack_name: str
+class AutomationSwicht (BaseModel):
+    growroom_name: str
     add_lights: Dict[str, bool]
     add_coolers:  Dict[str, bool]
     add_waterpumps: Dict[str, bool]
-    lights_on: Dict[str,  int]
-    lights_off: Dict[str, int]
-    coolers_on:  Dict[str, int]
-    coolers_off:  Dict[str, int]
-    waterpumps_on: Dict[str, int]
-    waterpumps_off: Dict[str, int]
     created_at: datetime = datetime.now()
 
 
     class Config:
         schema_extra = {
         "example":{
-        "rack_name": "comunication",
+        
+        "growroom_name": "str",
+       
         "add_lights": {
             "light1": False,
             "light2": False,
@@ -137,6 +135,7 @@ class RackAutomationSwicht (BaseModel):
             "electrovalvule4": False
 
       },
+         "created_at": "2022-06-27T20:56:35.762469"
 
     
         }
