@@ -1,23 +1,27 @@
-from server.models.rackautomationmodel import(
-    RackAutomationSwicht,
-    RackAutomationTimer,
+from server.models.automationModel import(
+    AutomationSwicht,
+    AutomationTimer,
     MqttMessage,)
-from server.models.rackmodel import(
-    Rack,
-    RackUpdate,
+from server.models.growRoomModel import(
+    Growroom,
+    GrowroomUpdate,
                 )
 from datetime import datetime
+
 from server.mqtt.mqttconfig import mqtt
 
 datetime_now = datetime.now()
 print(datetime_now.strftime('%d/%m/%Y %H:%M:%S'))
 hour = (datetime_now.strftime('%H'))
 
+
+
+
 # buscar a traves del key el valor y guardarlo en variables separadas
 def automation_lights(model):
 
     data = model
-    subTopic= data["rack_name"]                       
+    subTopic= data["growroom_name"]                       
     lights = data["add_lights"]                                      # buscamos dentro del diccionario rack y guardamos el diccionario que esta adentro de la clave lights en nuevo diccionario
     light1 = (lights['light1'])                                      # buscamos el valor de la key light1 dentro del diccionario lights
     light2 = (lights['light2'])
@@ -25,9 +29,9 @@ def automation_lights(model):
     light4 = (lights['light4'])
 
     if light1:
-        mqtt.publish(f"microstation/{subTopic}", "light1_on")        # si el valor es True envia mensaje para encender luces
+        mqtt.publish(f"{subTopic}", "light1_on")        # si el valor es True envia mensaje para encender luces
     elif light1 == False:
-        mqtt.publish(f"microstation/{subTopic}", "light1_off")        # si el valor es True envia mensaje para encender luces
+        mqtt.publish(f"{subTopic}", "light1_off")        # si el valor es True envia mensaje para encender luces
 
     if light2:
         mqtt.publish(f"microstation/{subTopic}", "light2_on")        # si el valor es True envia mensaje para encender luces
@@ -47,7 +51,7 @@ def automation_lights(model):
 # buscar a traves del key el valor y guardarlo en variables 
 def automation_coolers(model):
     data = model
-    subTopic= data["rack_name"]
+    subTopic= data["growroom_name"]
     coolers = data["add_coolers"]                                    # buscamos dentro del diccionario rack y guardamos el diccionario que esta adentro de la clave lights en nuevo diccionario
     coolers1 = (coolers['coolers1'])                                 # buscamos el valor de la key coolers1 dentro del diccionario coolers
     coolers2 = (coolers['coolers2'])
@@ -56,64 +60,64 @@ def automation_coolers(model):
 
     if coolers1:
         mqtt.publish(f"microstation/{subTopic}", "cooler1_on")       # si el valor es True envia mensaje para encender luces
-        return light1    
+        return coolers1    
     else:
         mqtt.publish(f"microstation/{subTopic}", "cooler1_off")      # publish
-        return light1
+        return coolers1
     print('-' * 80)
 
     if coolers2:
         mqtt.publish(f"microstation/{subTopic}", "cooler2_on")       # si el valor es True envia mensaje para encender luces
-        return light1    
+        return coolers2    
     else:
        
         mqtt.publish(f"microstation/{subTopic}", "cooler2_off")      # publish
-        return light1
+        return coolers2
     print('-' * 80)
 
     if coolers3:
         mqtt.publish(f"microstation/{subTopic}", "cooler3_on")       # si el valor es True envia mensaje para encender luces
-        return light1    
+        return coolers3    
     else:
        
         mqtt.publish(f"microstation/{subTopic}", "cooler3_off")      # publish
-        return light1
+        return coolers3
     print('-' * 80)
 
     if coolers4:
         mqtt.publish(f"microstation/{subTopic}", "cooler4_on")       # si el valor es True envia mensaje para encender cooler
-        return light1    
+        return coolers4    
     else:
        
         mqtt.publish(f"microstation/{subTopic}", "cooler4_off")      # publish
-        return light1
+        return coolers4
     print('-' * 80)
 
 # buscar a traves del key el valor y guardarlo en variables separadas
 def automation_waterpumps(model):
 
     data = model
-    subTopic= data["rack_name"]
+    subTopic= data["growroom_name"]
     waterpumps = data["add_waterpumps"]                             # buscamos dentro del diccionario rack y guardamos el diccionario que esta adentro de la clave waterpumps en nuevo diccionario
     waterpumps1 = (waterpumps['waterpumps1'])                       # buscamos el valor de la key waterpump1 dentro del diccionario waterpumps
     waterpumps2 = (waterpumps['waterpumps2'])
 
     if waterpumps1:
-        mqtt.publish(f"microstation/{subTopic}", "waterpumps1_on")  # publish
+        mqtt.publish(f"microstation/{subTopic}", "waterpump1_on")  # publish
         return waterpumps1                                          # si el valor es True envia mensaje para encender bomba1
      
     else:
-        mqtt.publish(f"microstation/{subTopic}", "waterpumps1_off")  # publish
+        mqtt.publish(f"microstation/{subTopic}", "waterpump1_off")  # publish
         return waterpumps1                                          # si el valor es True envia mensaje para encender bomba1
   
     print('-' * 80)
 
     if waterpumps2:
-        mqtt.publish(f"microstation/{subTopic}", "waterpumps_on")  # publish
+        mqtt.publish(f"microstation/{subTopic}", "waterpump2_on")  # publish
         return waterpumps2                                          # si el valor es True envia mensaje para encender bomba1
      
     else:
-        mqtt.publish(f"microstation/{subTopic}", "waterpumps_off")  # publish
+        mqtt.publish(f"microstation/{subTopic}", "waterpump2_off")  # publish
         return waterpumps2 
 
     print('-' * 80)
@@ -122,24 +126,24 @@ def automation_waterpumps(model):
 def automation_electrovalvules(model):
 
     data = model
-    subTopic= data["rack_name"]                       
+    subTopic= data["growroom_name"]                       
     electrovalvules = data["add_electrovalvules"]                                      # buscamos dentro del diccionario rack y guardamos el diccionario que esta adentro de la clave lights en nuevo diccionario
     electrovalvule1 = (electrovalvules['electrovalvule1'])                                      # buscamos el valor de la key light1 dentro del diccionario lights
-    electrovalvule2 = (electrovalvules['electrovalvule1'])
-    electrovalvule3 = (electrovalvules['electrovalvule1'])
-    electrovalvule4 = (electrovalvules['electrovalvule1'])
+    electrovalvule2 = (electrovalvules['electrovalvule2'])
+    electrovalvule3 = (electrovalvules['electrovalvule3'])
+    electrovalvule4 = (electrovalvules['electrovalvule4'])
 
-    if electrovalvules1:
+    if electrovalvule1:
         mqtt.publish(f"microstation/{subTopic}", "irrigation_1a")        # si el valor es True envia mensaje para encender electrovalvules1
      
 
     if electrovalvule2:
         mqtt.publish(f"microstation/{subTopic}", "irrigation_1b")        # si el valor es True envia mensaje para encender electrovalvules2
     
-    if electrovalvules3:
+    if electrovalvule3:
         mqtt.publish(f"microstation/{subTopic}", "irrigation_2a")        # si el valor es True envia mensaje para encender electrovalvules3
     
-    if electrovalvules4:
+    if electrovalvule4:
         mqtt.publish(f"microstation/{subTopic}", "irrigation_2b")        # si el valor es True envia mensaje para encender electrovalvules4
     
 
