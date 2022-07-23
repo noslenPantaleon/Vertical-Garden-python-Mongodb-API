@@ -1,7 +1,7 @@
-fastapi
-pydantic
-uvicorn
-motor.motor_asyncio
-fastapi_mqtt
-uuid4 
-typing
+fastapi==0.65
+pydantic== 1.8.2
+uvicorn== 0.14.0
+motor == 2.5.1
+fastapi_mqtt == 0.3.0
+typing-extensions== 3.10.0.0
+starlette  ==       0.14.2
